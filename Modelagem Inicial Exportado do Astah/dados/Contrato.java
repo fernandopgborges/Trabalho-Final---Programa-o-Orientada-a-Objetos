@@ -12,11 +12,7 @@ public class Contrato {
 
 	private FormaPagamento formaPagamento;
 
-	public double calculaValorFinal() {
-		return 0;
-	}
-
-
+	
 	public Contrato(int id, Date data, int periodo, FormaPagamento formaPagamento) {
 		this.id = id;
 		this.data = data;
@@ -55,6 +51,10 @@ public class Contrato {
 
 	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
+	}
+
+	public double calculaValorFinal() {
+		return 0;
 	}
 
 

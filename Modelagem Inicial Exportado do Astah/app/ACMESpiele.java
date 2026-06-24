@@ -6,4 +6,9 @@ public class ACMESpiele {
 
 	}
 
+	public void cadastrarCliente()
+	{
+		
+	}
+
 }

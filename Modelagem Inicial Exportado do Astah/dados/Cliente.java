@@ -8,10 +8,6 @@ public abstract class Cliente {
 
 	private String email;
 
-	public abstract String descrever();
-
-
-
 	public Cliente(int numero, String nome, String email) {
 		this.numero = numero;
 		this.nome = nome;
@@ -41,5 +37,7 @@ public abstract class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public abstract String descrever();
 
 }
