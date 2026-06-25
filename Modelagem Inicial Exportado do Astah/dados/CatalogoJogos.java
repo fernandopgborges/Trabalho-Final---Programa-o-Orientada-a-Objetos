@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import dados.Cliente;
 import dados.Jogo;
