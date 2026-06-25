@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import dados.Cliente;
 import dados.Jogo;
@@ -43,10 +44,20 @@ public class CatalogoJogos {
     public ArrayList<Jogo> consultaJogoMaiorValor()
     {
         double valorJogo;
+        ArrayList <Jogo> retorno = new ArrayList<>();
 
-        jogos.values()
+        valorJogo = jogos.values()
                       .stream()
-                      .
+                      .max(Comparator.comparingDouble(Jogo::getValorDiario))
+                      .get()
+                      .getValorDiario();
+
+        retorno = jogos.values()
+                       .stream()
+                       .filter(jogo -> jogo.getValorDiario()==valorJogo)
+                       .collect(Collectors.toList());
+
+        return retorno;               
     }
 
 }
