@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import dados.Cliente;
 import dados.Contrato;
 import dados.Jogo;
 
@@ -64,9 +65,31 @@ public class CatalogoContratos {
 
         retorno = contratos.values()
                        .stream()
-                       .filter(contrato -> contrato.calculaValorFinal()==valorJogo)
+                       .filter(contrato -> contrato.calculaValorFinal()==valorContrato)
                        .collect(Collectors.toList());
 
         return retorno;               
+    }
+
+    public ArrayList<Cliente> consultaClienteMaiorValor()
+    {
+        ArrayList <Jogo> retorno = new ArrayList<>();
+
+        retorno = contratos.values()
+                           .stream()
+                           .filter(jogo -> jogo.getValorDiario()==valorJogo)
+                           .collect(Collectors.toList());
+
+        return retorno;
+    }
+
+    public double valorTotalContratoCliente (Cliente clienteConsultado)
+    {
+        double somaValorCliente = contratos.values()
+                                           .stream()
+                                           .filter(contrato -> contratos.getCliente==clienteConsultado)
+                                           .mapToDouble(contrato -> contrato.calculaValorFinal())
+                                           .sum();
+
     }
 }
