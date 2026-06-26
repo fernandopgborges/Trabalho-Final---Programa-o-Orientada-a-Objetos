@@ -73,23 +73,25 @@ public class CatalogoContratos {
 
     public ArrayList<Cliente> consultaClienteMaiorValor()
     {
-        ArrayList <Jogo> retorno = new ArrayList<>();
+        ArrayList <Cliente> retorno = new ArrayList<>();
+        double valorTotalClienteValioso;
 
-        retorno = contratos.values()
-                           .stream()
-                           .filter(jogo -> jogo.getValorDiario()==valorJogo)
-                           .collect(Collectors.toList());
+        valorTotalClienteValioso = contratos.values()
+                                            .stream()
+                                            
 
         return retorno;
     }
 
-    public double valorTotalContratoCliente (Cliente clienteConsultado)
+    public double valorTotalContratosCliente (Cliente clienteConsultado)
     {
         double somaValorCliente = contratos.values()
                                            .stream()
                                            .filter(contrato -> contratos.getCliente==clienteConsultado)
                                            .mapToDouble(contrato -> contrato.calculaValorFinal())
                                            .sum();
+
+        return somaValorCliente;
 
     }
 }
