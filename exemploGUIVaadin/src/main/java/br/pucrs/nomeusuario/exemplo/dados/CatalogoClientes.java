@@ -1,4 +1,4 @@
-package dados;
+package br.pucrs.nomeusuario.exemplo.dados;
 
 import java.util.ArrayList;
 import java.util.TreeMap;

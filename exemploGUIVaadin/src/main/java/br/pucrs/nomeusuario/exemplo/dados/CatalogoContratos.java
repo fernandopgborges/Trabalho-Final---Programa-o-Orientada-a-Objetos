@@ -7,7 +7,6 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class CatalogoContratos {
-
     private TreeMap <Integer, Contrato> contratos;
 
 
@@ -32,14 +31,14 @@ public class CatalogoContratos {
 
     public ArrayList<Contrato> relatorioContrato()
     {
-        ArrayList<Contrato> relatorio = new ArrayList<>(contratos);
+        ArrayList<Contrato> relatorio = new ArrayList<>(contratos.values() );
         return relatorio;
         
     }
 
     public boolean removeContrato(Contrato contratoRemovido)
     {
-        if(contratos.isEmpty() || contratos.containsKey(contratoRemovido.getId()))
+        if(contratos.isEmpty() || !contratos.containsKey( contratoRemovido.getId() ) )
         {
             return false;
         }
@@ -63,7 +62,7 @@ public class CatalogoContratos {
 
         retorno = contratos.values()
                        .stream()
-                       .filter(contrato -> contrato.calculaValorFinal()==valorContrato)
+                       .filter( contrato -> contrato.calculaValorFinal() == valorContrato )
                        .collect(Collectors.toList());
 
         return retorno;               
