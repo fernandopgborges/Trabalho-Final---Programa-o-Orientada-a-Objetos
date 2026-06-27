@@ -1,4 +1,5 @@
-package dados;
+package br.pucrs.nomeusuario.exemplo.dados;
+
 public class Individual extends Cliente {
 
     private String cpf;

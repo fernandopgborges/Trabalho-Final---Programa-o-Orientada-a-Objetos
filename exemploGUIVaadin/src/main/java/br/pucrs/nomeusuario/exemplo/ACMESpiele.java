@@ -1,5 +1,7 @@
 package br.pucrs.nomeusuario.exemplo;
 
+import dados.*;
+
 import java.nio.file.*;
 import java.nio.charset.*;
 import java.io.*;
@@ -57,6 +59,9 @@ public class ACMESpiele extends VerticalLayout {
    }
 
    public void inicializar() {
+
+      
+
       // Lê clientes do CLIENTESINICIAL.CSV
       Path pathClientes = Paths.get( "ArquivosLeitura/CLIENTESINICIAL.CSV" );
       try ( BufferedReader reader = 
