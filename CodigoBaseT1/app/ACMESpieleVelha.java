@@ -1,15 +1,21 @@
 package app;
-import dados.*;
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ACMESpiele {
+import dados.Categoria;
+import dados.Cliente;
+import dados.Contrato;
+import dados.Corporativo;
+import dados.Individual;
+import dados.Jogo;
+
+public class ACMESpieleVelha {
 
     private Scanner entrada = new Scanner(System.in);  // Atributo para entrada padrao (teclado)
     private PrintStream saidaPadrao = System.out;   // Guarda a saida padrao - tela (console)
@@ -20,7 +26,7 @@ public class ACMESpiele {
     private ArrayList <Jogo> listaJogos;
     private ArrayList <Contrato> listaContratos;
 
-    public ACMESpiele ()
+    public ACMESpieleVelha ()
     {
         redirecionaEntrada();    // Redireciona Entrada para arquivos
         redirecionaSaida();    // Redireciona Saida para arquivos

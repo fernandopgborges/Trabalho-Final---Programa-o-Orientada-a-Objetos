@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "br.pucrs.nomeusuario.exemplo.Main",
+            "projectName": "exemplo"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ExemploApplication<exemplo>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

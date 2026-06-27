@@ -5,6 +5,7 @@ public class Jogo {
     private int ano;
     private double valorMinuto;
     private Categoria categoria;
+    private Contrato contrato;
 
 
     public Jogo (int codigo, String nome, int ano, double valorMinuto, Categoria categoria)
