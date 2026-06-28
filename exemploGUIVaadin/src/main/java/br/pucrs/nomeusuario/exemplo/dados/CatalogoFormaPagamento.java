@@ -1,10 +1,11 @@
 package br.pucrs.nomeusuario.exemplo.dados;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class CatalogoFormaPagamento {
 
-    private Treemap <Integer, FormaPagamento> pagamentos;
+    private TreeMap <Integer, FormaPagamento> pagamentos;
 
     public CatalogoFormaPagamento()
     {
@@ -15,13 +16,22 @@ public class CatalogoFormaPagamento {
     {
         if(!pagamentos.containsKey(novaForma.getCod()))
         {
-            pagamentos.put(novaForma);
+            pagamentos.put( novaForma.getCod(), novaForma );
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    public FormaPagamento buscarFormaPagamento( int cod ) {
+        return pagamentos.get( cod );
+    }
+
+    public ArrayList<FormaPagamento> getFormasPagamento() {
+        ArrayList<FormaPagamento> pagamentosList = new ArrayList<>( pagamentos.values() ); 
+        return pagamentosList;
     }
 
 }

@@ -14,7 +14,7 @@ public class Jogo {
 
 	private boolean jogoDisponivel;
 
-
+	private int contrato;
 
 	public Jogo(int codigo, String nome, int ano, double valorDiario, Categoria categoria) {
 		this.codigo = codigo;
@@ -23,9 +23,8 @@ public class Jogo {
 		this.valorDiario = valorDiario;
 		this.categoria = categoria;
 		this.jogoDisponivel = true;
+		this.contrato = -1;
 	}
-
-
 
 	public int getCodigo() {
 		return this.codigo;
@@ -70,6 +69,14 @@ public class Jogo {
 	public boolean getJogoDisponivel ()
 	{
 		return this.jogoDisponivel;
+	}
+
+	public int getContrato() {
+		return contrato;
+	}
+
+	public void setContrato( int c ) {
+		contrato = c;
 	}
 
 	public void setJogoDisponivel(boolean jogoDisponivel)

@@ -4,8 +4,8 @@ public class PIX extends FormaPagamento {
 
 	private String chave;
 
-	public PIX(int cod, int diaVencimento, String chave) {
-		super(cod, diaVencimento);
+	public PIX( int cod, int diaVencimento, int numeroCliente, String chave ) {
+		super( cod, diaVencimento, numeroCliente );
 		this.chave = chave;
 	}
 

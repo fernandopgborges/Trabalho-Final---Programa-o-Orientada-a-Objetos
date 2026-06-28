@@ -10,28 +10,26 @@ public class Contrato {
 
 	private int periodo;
 
-	private FormaPagamento formaPagamento;
+	private int numeroCliente;
 
-	private Jogo jogo;
+	private int codigoJogo;
 
-	private Cliente cliente;
+	private int codPagamento;
 
-	
-	public Contrato(int id, Date data, int periodo, FormaPagamento formaPagamento, Jogo jogo, Cliente cliente) {
+	public Contrato( int id, Date data, int periodo, int numeroCliente, int codigoJogo, int codPagamento ) {
 		this.id = id;
 		this.data = data;
 		this.periodo = periodo;
-		this.formaPagamento = formaPagamento;
-		this.jogo = jogo;
-		this.cliente = cliente;
+		this.numeroCliente = numeroCliente;
+		this.codigoJogo = codigoJogo;
+		this.codPagamento = codPagamento;
 	}
-
 
 	public int getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId( int id ) {
 		this.id = id;
 	}
 
@@ -39,7 +37,7 @@ public class Contrato {
 		return this.data;
 	}
 
-	public void setData(Date data) {
+	public void setData( Date data ) {
 		this.data = data;
 	}
 
@@ -47,31 +45,24 @@ public class Contrato {
 		return this.periodo;
 	}
 
-	public void setPeriodo(int periodo) {
+	public void setPeriodo( int periodo ) {
 		this.periodo = periodo;
 	}
 
-	public FormaPagamento getFormaPagamento() {
-		return this.formaPagamento;
+	public int getNumeroCliente() {
+		return numeroCliente;
 	}
 
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
+	public int getCodigoJogo() {
+		return codigoJogo;
 	}
 
-	public Cliente getCliente()
-	{
-		return this.cliente;
-	}
-
-	public Jogo getJogo()
-	{
-		return this.jogo;
+	public int getCodPagamento() {
+		return codPagamento;
 	}
 
 	public double calculaValorFinal() {
 		return 0;
 	}
-
 
 }

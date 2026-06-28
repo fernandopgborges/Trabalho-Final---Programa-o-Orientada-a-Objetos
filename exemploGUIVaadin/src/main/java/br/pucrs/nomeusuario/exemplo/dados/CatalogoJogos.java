@@ -1,9 +1,9 @@
 package br.pucrs.nomeusuario.exemplo.dados;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.Comparator;
 
 public class CatalogoJogos {
 
@@ -28,7 +28,7 @@ public class CatalogoJogos {
         }
     }
 
-    public ArrayList<Jogo> relatorioJogos()
+    public ArrayList<Jogo> getJogos()
     {
         ArrayList<Jogo> relatorio = new ArrayList<>(jogos.values());
         return relatorio;
@@ -41,23 +41,22 @@ public class CatalogoJogos {
         return jogoBuscado;
     }
 
-    public ArrayList<Jogo> consultaJogoMaiorValor()
-    {
-        double valorJogo;
-        ArrayList <Jogo> retorno = new ArrayList<>();
+   public ArrayList<Jogo> consultaJogoMaiorValor() {
+        
+        if (jogos.isEmpty()) {
+            return new ArrayList<>();
+        }
 
-        valorJogo = jogos.values()
-                      .stream()
-                      .max(Comparator.comparingDouble(Jogo::getValorDiario))
-                      .get()
-                      .getValorDiario();
+        double valorJogo = jogos.values()
+                .stream()
+                .max(Comparator.comparingDouble(Jogo::getValorDiario))
+                .get()
+                .getValorDiario();
 
-        retorno = jogos.values()
-                       .stream()
-                       .filter(jogo -> jogo.getValorDiario()==valorJogo)
-                       .collect(Collectors.toList());
-
-        return retorno;               
+        return jogos.values()
+                .stream()
+                .filter(jogo -> Double.compare(jogo.getValorDiario(), valorJogo) == 0)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 }

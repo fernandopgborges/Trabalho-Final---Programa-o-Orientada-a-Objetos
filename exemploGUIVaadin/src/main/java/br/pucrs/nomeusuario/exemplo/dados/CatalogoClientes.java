@@ -26,7 +26,11 @@ public class CatalogoClientes {
 
     }
 
-    public ArrayList<Cliente> relatorioClientes()
+    public Cliente buscarCliente( int numero ) {
+        return clientes.get( numero );
+    }
+
+    public ArrayList<Cliente> getClientes()
     {
         ArrayList<Cliente> relatorio = new ArrayList<>(clientes.values());
         return relatorio;
@@ -44,6 +48,5 @@ public class CatalogoClientes {
             return true;
         }
     }
-
 
 }

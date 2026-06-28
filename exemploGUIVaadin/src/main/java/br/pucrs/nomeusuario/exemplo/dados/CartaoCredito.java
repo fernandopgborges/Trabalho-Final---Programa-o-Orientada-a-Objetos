@@ -8,8 +8,8 @@ public class CartaoCredito extends FormaPagamento {
 
 	private Date validade;
 
-	public CartaoCredito(int cod,int diaVencimento, String numero, Date validade) {
-		super(cod, diaVencimento);
+	public CartaoCredito( int cod,int diaVencimento, int numeroCliente, String numero, Date validade ) {
+		super( cod, diaVencimento, numeroCliente );
 		this.numero = numero;
 		this.validade = validade;
 	}
