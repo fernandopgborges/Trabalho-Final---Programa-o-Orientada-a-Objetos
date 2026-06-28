@@ -291,8 +291,14 @@ public class ACMESpiele extends VerticalLayout {
       Queue<Contrato> filaContratos =
          ( Queue<Contrato> ) VaadinSession.getCurrent().getAttribute( "filaContratos" );
 
+      CatalogoClientes catalogoClientes =
+         ( CatalogoClientes ) VaadinSession.getCurrent().getAttribute( "catalogoClientes" );
+       
       CatalogoJogos catalogoJogos =
          ( CatalogoJogos ) VaadinSession.getCurrent().getAttribute( "catalogoJogos" );
+
+      CatalogoFormaPagamento catalogoFormaPagamento =
+         ( CatalogoFormaPagamento ) VaadinSession.getCurrent().getAttribute( "catalogoFormaPagamento" );
 
       if ( filaContratos == null ) {
          filaContratos = new LinkedList<>();
@@ -345,25 +351,29 @@ public class ACMESpiele extends VerticalLayout {
                      continue;
                   }
 
+                  Cliente cliente = catalogoClientes.buscarCliente( numeroCliente );
+
+                  if ( cliente == null ) continue;
+
+                  Jogo jogo = catalogoJogos.buscarJogo( codigoJogo );
+                  if ( jogo == null ) {
+                    continue;
+                  } 
+
+                  FormaPagamento formaPagamento = catalogoFormaPagamento.buscarFormaPagamento( codigoPagamento );
+
                   Contrato novoContrato = new Contrato(
                      id,
                      data,
                      periodo,
-                     numeroCliente,
-                     codigoJogo,
-                     codigoPagamento
+                     cliente,
+                     jogo,
+                     formaPagamento
                   );
-                  if ( filaContratos.contains( novoContrato ) ) {
-                     continue;
-                  }
 
+                  jogo.setJogoDisponivel( false );
+                  jogo.setContrato( novoContrato.getId() );
                   filaContratos.add( novoContrato );
-
-                  Jogo jogo = catalogoJogos.buscarJogo( codigoJogo );
-                  if ( jogo != null ) {
-                     jogo.setJogoDisponivel( false );
-                     jogo.setContrato( novoContrato.getId() );
-                  }
 
                   Notification.show( "Contrato carregado: " + id );
 

@@ -127,7 +127,6 @@ public class cadastroContratosView extends VerticalLayout {
         gridContratos.setItems( filaContratos );
 
         buttonAdicionar.addClickListener( e -> {
-
             if ( fieldId.isEmpty( ) || fieldPeriodo.isEmpty( ) || fieldData.isEmpty( ) ) {
                 Notification.show( "Preencha os campos!" );
                 return;
@@ -175,9 +174,9 @@ public class cadastroContratosView extends VerticalLayout {
                 id,
                 data,
                 periodo,
-                cliente.getNumero( ),
-                jogo.getCodigo( ),
-                pagamento.getCod( )
+                cliente,
+                jogo,
+                pagamento
             );
 
             filaContratos.add( contrato );
@@ -191,7 +190,7 @@ public class cadastroContratosView extends VerticalLayout {
             gridContratos.setItems( filaContratos );
 
             Notification.show( "Contrato adicionado!" );
-        } );
+        });
 
         buttonVoltar.addClickListener( e -> {
             VaadinSession.getCurrent( ).setAttribute( "catalogoJogos", catalogoJogos );

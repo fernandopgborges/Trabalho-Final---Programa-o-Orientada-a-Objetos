@@ -10,19 +10,19 @@ public class Contrato {
 
 	private int periodo;
 
-	private int numeroCliente;
+	private Cliente cliente;
 
-	private int codigoJogo;
+	private Jogo jogo;
 
-	private int codPagamento;
+	private FormaPagamento formaPagamento;
 
-	public Contrato( int id, Date data, int periodo, int numeroCliente, int codigoJogo, int codPagamento ) {
+	public Contrato( int id, Date data, int periodo, Cliente cliente, Jogo jogo, FormaPagamento formaPagamento ) {
 		this.id = id;
 		this.data = data;
 		this.periodo = periodo;
-		this.numeroCliente = numeroCliente;
-		this.codigoJogo = codigoJogo;
-		this.codPagamento = codPagamento;
+		this.cliente = cliente;
+		this.jogo = jogo;
+		this.formaPagamento = formaPagamento;
 	}
 
 	public int getId() {
@@ -49,16 +49,28 @@ public class Contrato {
 		this.periodo = periodo;
 	}
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
 	public int getNumeroCliente() {
-		return numeroCliente;
+		return cliente.getNumero();
+	}
+
+	public Jogo getJogo() {
+		return jogo;
 	}
 
 	public int getCodigoJogo() {
-		return codigoJogo;
+		return jogo.getCodigo();
+	}
+
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
 	}
 
 	public int getCodPagamento() {
-		return codPagamento;
+		return formaPagamento.getCod();
 	}
 
 	public double calculaValorFinal() {
