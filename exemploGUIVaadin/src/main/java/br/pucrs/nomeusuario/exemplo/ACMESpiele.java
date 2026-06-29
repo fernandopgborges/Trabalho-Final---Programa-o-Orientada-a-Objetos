@@ -52,6 +52,9 @@ public class ACMESpiele extends VerticalLayout {
    private Button buttonRelatorioJogo;
    private Button buttonRelatorioContrato;
 
+   private Button buttonRemoverContrato;
+   private Button buttonAlterarCliente;
+
    private CatalogoClientes catalogoClientes;
    private CatalogoJogos catalogoJogos;
    private CatalogoFormaPagamento catalogoFormaPagamento;
@@ -86,6 +89,9 @@ public class ACMESpiele extends VerticalLayout {
       buttonRelatorioCliente = new Button( "Ver Relatório de Clientes" );
       buttonRelatorioJogo = new Button( "Ver Relatório de Jogos" );
       buttonRelatorioContrato = new Button( "Ver Relatório de Contratos" );
+      
+      buttonRemoverContrato = new Button("Remover Contrato");
+      buttonAlterarCliente = new Button("Alterar Dados do Cliente");
 
       buttonLerArquivosIniciais.addClickListener( e -> {
          inicializar();
@@ -101,6 +107,9 @@ public class ACMESpiele extends VerticalLayout {
       buttonRelatorioCliente.addClickListener( tratadorBotoes );
       buttonRelatorioJogo.addClickListener( tratadorBotoes );
       buttonRelatorioContrato.addClickListener( tratadorBotoes );
+      
+      buttonRemoverContrato.addClickListener(tratadorBotoes);
+      buttonAlterarCliente.addClickListener(tratadorBotoes);
 
       add( buttonLerArquivosIniciais );
 
@@ -109,7 +118,7 @@ public class ACMESpiele extends VerticalLayout {
       add( buttonCadastroPagamento );
       add( buttonCadastroContrato );
 
-      add( buttonRelatorioCliente, buttonRelatorioJogo, buttonRelatorioContrato );
+      add( buttonRelatorioCliente, buttonRelatorioJogo, buttonRelatorioContrato, buttonRemoverContrato, buttonAlterarCliente);
    }
 
    public void inicializar() {
@@ -399,7 +408,20 @@ public class ACMESpiele extends VerticalLayout {
                return;
             }
             path = "relatorioContrato";
+         } else if (sourceEvento == buttonRemoverContrato) {
+            if (sContratos == null || sContratos.relatorioContrato().isEmpty()) {
+               Notification.show("Nenhum contrato cadastrado!");
+               return;
+            }
+            path = "removerContrato";
+         }else if (sourceEvento == buttonAlterarCliente) {
+            if (sClientes == null || sClientes.getClientes().isEmpty()) {
+               Notification.show("Nenhum cliente cadastrado!");
+               return;
+            }
+            path = "alterarCliente";
          }
+         
 
          UI.getCurrent().navigate( path );
       }

@@ -36,17 +36,29 @@ public class CatalogoClientes {
         return relatorio;
     }
     
-    public boolean alteraDadosCliente (Cliente clienteModificado)
+    public boolean alteraDadosCliente(Cliente clienteModificado)
     {
-        if(clientes.isEmpty()|| !clientes.containsKey(clienteModificado.getNumero()))
+        Cliente cliente = clientes.get(clienteModificado.getNumero());
+
+        if (cliente == null)
         {
             return false;
         }
-        else
+
+        cliente.setNome(clienteModificado.getNome());
+        cliente.setEmail(clienteModificado.getEmail());
+
+        if (cliente instanceof Individual clienteOriginal && clienteModificado instanceof Individual clienteNovo)
         {
-            clientes.replace(clienteModificado.getNumero(), clienteModificado);
-            return true;
+            clienteOriginal.setCpf(clienteNovo.getCpf());
         }
+        else if (cliente instanceof Corporativo clienteOriginal && clienteModificado instanceof Corporativo clienteNovo)
+        {
+            clienteOriginal.setCnpj(clienteNovo.getCnpj());
+            clienteOriginal.setNomeFantasia(clienteNovo.getNomeFantasia());
+        }
+
+        return true;
     }
 
 }

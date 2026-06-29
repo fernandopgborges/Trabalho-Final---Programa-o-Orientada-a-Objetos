@@ -195,7 +195,7 @@ public class CadastroContratosView extends VerticalLayout {
             VaadinSession.getCurrent( ).setAttribute( "catalogoJogos", catalogoJogos );
             VaadinSession.getCurrent( ).setAttribute( "catalogoClientes", catalogoClientes );
             VaadinSession.getCurrent( ).setAttribute( "catalogoFormaPagamento", catalogoPagamentos );
-            VaadinSession.getCurrent( ).setAttribute( "filaContratos", catalogoContratos );
+            VaadinSession.getCurrent( ).setAttribute( "catalogoContratos", catalogoContratos );
             UI.getCurrent().navigate( "" );
         } );
 

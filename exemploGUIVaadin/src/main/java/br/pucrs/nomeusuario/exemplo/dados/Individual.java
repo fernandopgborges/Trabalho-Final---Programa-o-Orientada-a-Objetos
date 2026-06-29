@@ -15,8 +15,15 @@ public class Individual extends Cliente {
         return this.cpf;
     }
 
+    public void setCpf(String cpf) 
+    {
+        this.cpf = cpf;
+    }
+
     public String descrever ()
     {
         return getNumero() + ";" + getNome() + ";" + getEmail() + ";" + cpf;
     }
+
+    
 }

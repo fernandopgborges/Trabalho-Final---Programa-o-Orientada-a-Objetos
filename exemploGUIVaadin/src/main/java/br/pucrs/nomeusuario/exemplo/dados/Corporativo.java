@@ -17,6 +17,16 @@ public class Corporativo extends Cliente{
         return this.cnpj;
     }
 
+    public void setCnpj(String cnpj) 
+    {
+        this.cnpj = cnpj;
+    }
+
+    public void setNomeFantasia(String nomeFantasia) 
+    {
+        this.nomeFantasia = nomeFantasia;
+    }
+
     public String getNomeFantasia ()
     {
         return this.nomeFantasia;
