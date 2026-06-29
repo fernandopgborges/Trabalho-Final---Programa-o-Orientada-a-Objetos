@@ -3,8 +3,6 @@ package br.pucrs.nomeusuario.exemplo.TelasTF;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.UI;
@@ -18,7 +16,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
+import br.pucrs.nomeusuario.exemplo.dados.*;
 import br.pucrs.nomeusuario.exemplo.dados.CatalogoClientes;
+import br.pucrs.nomeusuario.exemplo.dados.CatalogoContratos;
 import br.pucrs.nomeusuario.exemplo.dados.CatalogoFormaPagamento;
 import br.pucrs.nomeusuario.exemplo.dados.CatalogoJogos;
 import br.pucrs.nomeusuario.exemplo.dados.Cliente;
@@ -27,7 +27,7 @@ import br.pucrs.nomeusuario.exemplo.dados.FormaPagamento;
 import br.pucrs.nomeusuario.exemplo.dados.Jogo;
 
 @Route( "/cadastroContrato" )
-public class cadastroContratosView extends VerticalLayout {
+public class CadastroContratosView extends VerticalLayout {
 
     private Button buttonVoltar;
     private Button buttonAdicionar;
@@ -43,13 +43,12 @@ public class cadastroContratosView extends VerticalLayout {
 
     private DatePicker fieldData;
 
-    private Queue< Contrato > filaContratos;
-
     private CatalogoClientes catalogoClientes;
     private CatalogoJogos catalogoJogos;
     private CatalogoFormaPagamento catalogoPagamentos;
+    private CatalogoContratos catalogoContratos;
 
-    public cadastroContratosView( ) {
+    public CadastroContratosView( ) {
 
         buttonVoltar = new Button( "Voltar" );
         buttonAdicionar = new Button( "Adicionar Contrato" );
@@ -73,11 +72,11 @@ public class cadastroContratosView extends VerticalLayout {
         catalogoPagamentos =
             ( CatalogoFormaPagamento ) VaadinSession.getCurrent( ).getAttribute( "catalogoFormaPagamento" );
 
-        filaContratos =
-            ( Queue< Contrato > ) VaadinSession.getCurrent( ).getAttribute( "filaContratos" );
+        catalogoContratos =
+            ( CatalogoContratos ) VaadinSession.getCurrent( ).getAttribute( "catalogoContratos" );
 
-        if ( filaContratos == null ) {
-            filaContratos = new LinkedList<>( );
+        if ( catalogoContratos == null ) {
+            catalogoContratos = new CatalogoContratos();
         }
 
         comboClientes.setItems( catalogoClientes.getClientes( ) );
@@ -92,9 +91,12 @@ public class cadastroContratosView extends VerticalLayout {
         );
 
         comboPagamentos.setItems( catalogoPagamentos.getFormasPagamento( ) );
-        comboPagamentos.setItemLabelGenerator( p ->
-            String.valueOf( p.getCod( ) )
-        );
+        comboPagamentos.setItemLabelGenerator( p -> {
+            String text = String.valueOf( p.getCod( ) ) + "-";
+            if ( p instanceof PIX ) text+= "PIX";
+            else if ( p instanceof CartaoCredito ) text+= "Cartão de Crédito";
+            return text;
+        } );
 
         gridContratos.addColumn( c -> c.getId( ) ).setHeader( "ID" );
 
@@ -123,8 +125,12 @@ public class cadastroContratosView extends VerticalLayout {
 
         SimpleDateFormat format = new SimpleDateFormat( "dd/MM/yyyy" );
         gridContratos.addColumn( c -> format.format( c.getData( ) ) ).setHeader( "Data" );
+        gridContratos.addColumn( c -> {
+            String formatada = String.format( "%.2f", c.calculaValorFinal( catalogoContratos ) );
+            return formatada;
+        }).setHeader( "Valor Final");
 
-        gridContratos.setItems( filaContratos );
+        gridContratos.setItems( catalogoContratos.relatorioContrato() );
 
         buttonAdicionar.addClickListener( e -> {
             if ( fieldId.isEmpty( ) || fieldPeriodo.isEmpty( ) || fieldData.isEmpty( ) ) {
@@ -154,13 +160,6 @@ public class cadastroContratosView extends VerticalLayout {
                     .toInstant( )
             );
 
-            for ( Contrato c : filaContratos ) {
-                if ( c.getId( ) == id ) {
-                    Notification.show( "ID já existe!" );
-                    return;
-                }
-            }
-
             Cliente cliente = comboClientes.getValue( );
             Jogo jogo = comboJogos.getValue( );
             FormaPagamento pagamento = comboPagamentos.getValue( );
@@ -179,7 +178,7 @@ public class cadastroContratosView extends VerticalLayout {
                 pagamento
             );
 
-            filaContratos.add( contrato );
+            catalogoContratos.cadastraContrato( contrato );
 
             jogo.setJogoDisponivel( false );
             jogo.setContrato( id );
@@ -187,7 +186,7 @@ public class cadastroContratosView extends VerticalLayout {
             atualizarJogosDisponiveis();
             comboJogos.clear();
 
-            gridContratos.setItems( filaContratos );
+            gridContratos.setItems( catalogoContratos.relatorioContrato() );
 
             Notification.show( "Contrato adicionado!" );
         });
@@ -196,7 +195,7 @@ public class cadastroContratosView extends VerticalLayout {
             VaadinSession.getCurrent( ).setAttribute( "catalogoJogos", catalogoJogos );
             VaadinSession.getCurrent( ).setAttribute( "catalogoClientes", catalogoClientes );
             VaadinSession.getCurrent( ).setAttribute( "catalogoFormaPagamento", catalogoPagamentos );
-            VaadinSession.getCurrent( ).setAttribute( "filaContratos", filaContratos );
+            VaadinSession.getCurrent( ).setAttribute( "filaContratos", catalogoContratos );
             UI.getCurrent().navigate( "" );
         } );
 

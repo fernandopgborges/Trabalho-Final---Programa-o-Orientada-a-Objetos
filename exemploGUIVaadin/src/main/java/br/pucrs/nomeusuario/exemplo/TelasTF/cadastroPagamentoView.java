@@ -23,7 +23,7 @@ import br.pucrs.nomeusuario.exemplo.dados.FormaPagamento;
 import br.pucrs.nomeusuario.exemplo.dados.PIX;
 
 @Route( "/cadastroPagamento" )
-public class cadastroPagamentoView extends VerticalLayout {
+public class CadastroPagamentoView extends VerticalLayout {
 
     private Button buttonVoltar;
     private Button buttonAdicionar;
@@ -37,7 +37,7 @@ public class cadastroPagamentoView extends VerticalLayout {
     private ComboBox<String> comboTipo;
     private DatePicker datePicker;
 
-    public cadastroPagamentoView() {
+    public CadastroPagamentoView() {
 
         buttonVoltar = new Button( "Voltar" );
         buttonAdicionar = new Button( "Adicionar Pagamento" );

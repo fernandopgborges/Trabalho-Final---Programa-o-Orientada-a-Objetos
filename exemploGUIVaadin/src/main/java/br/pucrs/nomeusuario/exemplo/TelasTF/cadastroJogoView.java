@@ -14,7 +14,7 @@ import br.pucrs.nomeusuario.exemplo.dados.CatalogoJogos;
 import br.pucrs.nomeusuario.exemplo.dados.Categoria;
 import br.pucrs.nomeusuario.exemplo.dados.Jogo;
 @Route( "/cadastroJogo" )
-public class cadastroJogoView extends VerticalLayout {
+public class CadastroJogoView extends VerticalLayout {
     private Button buttonVoltar;
     private Button buttonAdicionar;
     private Grid<Jogo> gridJogos;
@@ -25,7 +25,7 @@ public class cadastroJogoView extends VerticalLayout {
 
     private ComboBox<Categoria> comboCategoria;
 
-    public cadastroJogoView() {
+    public CadastroJogoView() {
         buttonVoltar = new Button( "Voltar" );
         gridJogos = new Grid<Jogo>( Jogo.class, false );
 
@@ -106,7 +106,6 @@ public class cadastroJogoView extends VerticalLayout {
             UI.getCurrent().navigate( "" );
         });
 
-        // GRID CORRIGIDA
         gridJogos.addColumn( c -> c.getCodigo() ).setHeader( "Código" );
         gridJogos.addColumn( c -> c.getNome() ).setHeader( "Nome" );
         gridJogos.addColumn( c -> c.getAno() ).setHeader( "Ano" );

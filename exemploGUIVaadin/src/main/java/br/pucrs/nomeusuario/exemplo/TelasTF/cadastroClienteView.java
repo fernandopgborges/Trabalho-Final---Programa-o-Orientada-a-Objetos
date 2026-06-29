@@ -16,7 +16,7 @@ import br.pucrs.nomeusuario.exemplo.dados.Corporativo;
 import br.pucrs.nomeusuario.exemplo.dados.Individual;
 
 @Route( "/cadastroCliente")
-public class cadastroClienteView extends VerticalLayout {
+public class CadastroClienteView extends VerticalLayout {
     private Button buttonVoltar;
     private Button buttonAdicionar;
     private Grid<Cliente> gridClientes;
@@ -28,7 +28,7 @@ public class cadastroClienteView extends VerticalLayout {
 
     private ComboBox<String> comboTipo;
 
-    public cadastroClienteView() {
+    public CadastroClienteView() {
         buttonVoltar = new Button( "Voltar" );
         gridClientes = new Grid<Cliente>( Cliente.class, false );
 

@@ -74,40 +74,40 @@ public class Contrato {
 	}
 
 	public double calculaValorFinal(CatalogoContratos catalogoContratos) 
-{
-    double percentual = 0;	
-    
-    switch (jogo.getCategoria())
-    {
-        case AVENTURA:
-            percentual = .05;
-            break;
-        case ESTRATEGIA:
-            percentual = .10;
-            break;
-        case CORRIDA:
-            percentual = .15;
-            break;
-    }
+	{
+		double percentual = 0;	
+		
+		switch (jogo.getCategoria())
+		{
+			case AVENTURA:
+				percentual = .05;
+				break;
+			case ESTRATEGIA:
+				percentual = .10;
+				break;
+			case CORRIDA:
+				percentual = .15;
+				break;
+		}
 
-    if (formaPagamento instanceof PIX)
-    {
-        percentual += -.05;
-    }
-    else if (formaPagamento instanceof CartaoCredito)
-    {
-        percentual += .05;
-    }
+		if (formaPagamento instanceof PIX)
+		{
+			percentual += -.05;
+		}
+		else if (formaPagamento instanceof CartaoCredito)
+		{
+			percentual += .05;
+		}
 
-    double valor = jogo.getValorDiario() * (1 + percentual);
+		double valor = jogo.getValorDiario() * (1 + percentual);
 
-    int quantidadeContratos = catalogoContratos.contarContratosCliente(cliente);
+		int quantidadeContratos = catalogoContratos.contarContratosCliente(cliente);
 
-    if (quantidadeContratos > 2)
-    {
-        valor = valor * 0.97;
-    }
+		if (quantidadeContratos > 2)
+		{
+			valor = valor * 0.97;
+		}
 
-    return valor;
-}
+		return valor;
+	}
 }
