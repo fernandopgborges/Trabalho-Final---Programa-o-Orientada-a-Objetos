@@ -18,5 +18,12 @@ public class PIX extends FormaPagamento {
 		this.chave = chave;
 	}
 
-
+	@Override
+	public String descrever() {
+		return 	getCod() + ";" + 
+				getDiaVencimento() + ";" +
+				"1;" +
+				getNumeroCliente() + ";" +
+				chave;
+	}
 }

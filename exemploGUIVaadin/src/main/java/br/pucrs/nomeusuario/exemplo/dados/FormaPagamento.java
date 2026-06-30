@@ -1,6 +1,6 @@
 package br.pucrs.nomeusuario.exemplo.dados;
 
-public class FormaPagamento {
+public abstract class FormaPagamento {
 
 	private int cod;
 
@@ -41,10 +41,6 @@ public class FormaPagamento {
 		return this.numeroCliente;
 	}
 
-	@Override
-	public String toString() {
-		return " cod='" + getCod() + "'" + ", diaVencimento='" + getDiaVencimento() + "'";
-	}
-
+	public abstract String descrever();
 
 }

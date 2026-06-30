@@ -20,9 +20,10 @@ public class Individual extends Cliente {
         this.cpf = cpf;
     }
 
+    @Override
     public String descrever ()
     {
-        return getNumero() + ";" + getNome() + ";" + getEmail() + ";" + cpf;
+        return getNumero() + ";" + getNome() + ";" + getEmail() + ";1" + ";" + cpf;
     }
 
     

@@ -1,6 +1,7 @@
 package br.pucrs.nomeusuario.exemplo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -19,7 +20,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
@@ -52,8 +55,18 @@ public class ACMESpiele extends VerticalLayout {
    private Button buttonRelatorioJogo;
    private Button buttonRelatorioContrato;
 
+   private Button buttonConsulta;
+
    private Button buttonRemoverContrato;
    private Button buttonAlterarCliente;
+
+   private Button buttonSalvarArquivo;
+   private TextField textSalvarArquivo;
+
+   private Button buttonLerArquivo;
+   private TextField textLerArquivo;
+
+   private Button buttonFinalizar;
 
    private CatalogoClientes catalogoClientes;
    private CatalogoJogos catalogoJogos;
@@ -90,8 +103,18 @@ public class ACMESpiele extends VerticalLayout {
       buttonRelatorioJogo = new Button( "Ver Relatório de Jogos" );
       buttonRelatorioContrato = new Button( "Ver Relatório de Contratos" );
       
+      buttonConsulta = new Button( "Consultas" );
+
       buttonRemoverContrato = new Button("Remover Contrato");
       buttonAlterarCliente = new Button("Alterar Dados do Cliente");
+
+      buttonSalvarArquivo = new Button( "Salvar Arquivo" );
+      textSalvarArquivo = new TextField( "Escreva o nome do arquivo(sem extensão)");
+
+      buttonLerArquivo = new Button( "Ler Arquivo" );
+      textLerArquivo = new TextField( "Escreva o nome do arquivo(sem extensão)");
+
+      buttonFinalizar = new Button( "Finalizar Sessão" );
 
       buttonLerArquivosIniciais.addClickListener( e -> {
          inicializar();
@@ -108,8 +131,20 @@ public class ACMESpiele extends VerticalLayout {
       buttonRelatorioJogo.addClickListener( tratadorBotoes );
       buttonRelatorioContrato.addClickListener( tratadorBotoes );
       
+      buttonConsulta.addClickListener( tratadorBotoes );
+
       buttonRemoverContrato.addClickListener(tratadorBotoes);
       buttonAlterarCliente.addClickListener(tratadorBotoes);
+
+      buttonSalvarArquivo.addClickListener( e -> {
+         salvarArquivos();
+      });
+
+      buttonLerArquivo.addClickListener( e -> {
+         lerArquivo();
+      });
+
+      buttonFinalizar.addClickListener( tratadorBotoes );
 
       add( buttonLerArquivosIniciais );
 
@@ -118,7 +153,19 @@ public class ACMESpiele extends VerticalLayout {
       add( buttonCadastroPagamento );
       add( buttonCadastroContrato );
 
-      add( buttonRelatorioCliente, buttonRelatorioJogo, buttonRelatorioContrato, buttonRemoverContrato, buttonAlterarCliente);
+      add( buttonRelatorioCliente, buttonRelatorioJogo, buttonConsulta, buttonRelatorioContrato, buttonRemoverContrato, buttonAlterarCliente);
+
+      HorizontalLayout layoutSalvar = new HorizontalLayout();
+      layoutSalvar.add( textSalvarArquivo, buttonSalvarArquivo );
+      layoutSalvar.setAlignItems( Alignment.CENTER );
+      
+      HorizontalLayout layoutLer = new HorizontalLayout();
+      layoutLer.add( textLerArquivo, buttonLerArquivo );
+      layoutLer.setAlignItems( Alignment.CENTER );
+
+      add( layoutSalvar, layoutLer );
+
+      add( buttonFinalizar );
    }
 
    public void inicializar() {
@@ -371,6 +418,220 @@ public class ACMESpiele extends VerticalLayout {
       }
    }
 
+   public void salvarArquivos() {
+      catalogoClientes = ( CatalogoClientes ) VaadinSession.getCurrent().getAttribute( "catalogoClientes" );
+      catalogoJogos = ( CatalogoJogos ) VaadinSession.getCurrent().getAttribute( "catalogoJogos" );
+      catalogoFormaPagamento = ( CatalogoFormaPagamento ) VaadinSession.getCurrent().getAttribute( "catalogoFormaPagamento" );
+      catalogoContratos = ( CatalogoContratos ) VaadinSession.getCurrent().getAttribute( "catalogoContratos" );
+
+      String nomeArquivo = textSalvarArquivo.getValue();
+
+      if ( nomeArquivo == null || nomeArquivo.trim().isEmpty() ) {
+         Notification.show( "Preencha o nome do arquivo antes de salvar!" );
+         return;
+      }
+
+      String nomeCompleto = nomeArquivo.trim();
+      if ( !nomeCompleto.toLowerCase().endsWith( ".csv" ) ) {
+         nomeCompleto += ".csv";
+      }
+
+      Path pathPrefixo = Paths.get( "ArquivosLeitura", nomeCompleto );
+      try ( BufferedWriter writer = Files.newBufferedWriter( pathPrefixo, Charset.forName( "UTF-8" ) ) ) {
+         
+         writer.write( "Cliente" );
+         writer.newLine();
+         if ( catalogoClientes != null && catalogoClientes.getClientes() != null ) {
+            for ( Cliente cliente : catalogoClientes.getClientes() ) {
+               writer.write( cliente.descrever() );
+               writer.newLine();
+            }
+         }
+
+         writer.write( "Jogo" );
+         writer.newLine();
+         if ( catalogoJogos != null && catalogoJogos.getJogos() != null ) {
+            for ( Jogo jogo : catalogoJogos.getJogos() ) {
+               writer.write( jogo.descrever() );
+               writer.newLine();
+            }
+         }
+
+         writer.write( "FormaPagamento" );
+         writer.newLine();
+         if ( catalogoFormaPagamento != null && catalogoFormaPagamento.getFormasPagamento() != null ) {
+            for ( FormaPagamento forma : catalogoFormaPagamento.getFormasPagamento() ) {
+               writer.write( forma.descrever() );
+               writer.newLine();
+            }
+         }
+
+         writer.write( "Contrato" );
+         writer.newLine();
+         if ( catalogoContratos != null && catalogoContratos.relatorioContrato() != null ) {
+            for ( Contrato contrato : catalogoContratos.relatorioContrato() ) {
+               writer.write( contrato.descrever() );
+               writer.newLine();
+            }
+         }
+
+         Notification.show( "Arquivo '" + nomeCompleto + "' salvo com sucesso em ArquivoLeitura!" );
+      } catch ( IOException e ) {
+         Notification.show( "Erro de I/O ao salvar o arquivo: " + e.getMessage() );
+      }
+   }
+
+   public void lerArquivo() {
+      catalogoClientes = ( CatalogoClientes ) VaadinSession.getCurrent().getAttribute( "catalogoClientes" );
+      catalogoJogos = ( CatalogoJogos ) VaadinSession.getCurrent().getAttribute( "catalogoJogos" );
+      catalogoFormaPagamento = ( CatalogoFormaPagamento ) VaadinSession.getCurrent().getAttribute( "catalogoFormaPagamento" );
+      catalogoContratos = ( CatalogoContratos ) VaadinSession.getCurrent().getAttribute( "catalogoContratos" );
+
+      if ( catalogoClientes == null ) catalogoClientes = new CatalogoClientes();
+      if ( catalogoJogos == null ) catalogoJogos = new CatalogoJogos();
+      if ( catalogoFormaPagamento == null ) catalogoFormaPagamento = new CatalogoFormaPagamento();
+      if ( catalogoContratos == null ) catalogoContratos = new CatalogoContratos();
+
+      String nomeArquivo = textLerArquivo.getValue();
+
+      if ( nomeArquivo == null || nomeArquivo.trim().isEmpty() ) {
+         Notification.show( "Por favor, preencha o nome do arquivo antes de ler!" );
+         return;
+      }
+
+      String nomeCompleto = nomeArquivo.trim();
+      if ( !nomeCompleto.toLowerCase().endsWith( ".csv" ) ) {
+         nomeCompleto += ".csv";
+      }
+
+      Path pathArquivo = Paths.get( "ArquivosLeitura", nomeCompleto );
+      SimpleDateFormat formatData = new SimpleDateFormat( "dd/MM/yyyy" );
+      String secaoAtual = "";
+
+      try ( BufferedReader reader = Files.newBufferedReader( pathArquivo, Charset.forName( "UTF-8" ) ) ) {
+         String line;
+
+         while ( ( line = reader.readLine() ) != null ) {
+            line = line.trim();
+            if ( line.isEmpty() ) continue;
+
+            if ( line.equals( "Cliente" ) || line.equals( "Jogo" ) || line.equals( "FormaPagamento" ) || line.equals( "Contrato" ) ) {
+               secaoAtual = line;
+               continue;
+            }
+
+            String[] partes = line.split( ";" );
+
+            try {
+               switch ( secaoAtual ) {
+                  case "Cliente":
+                     Cliente cliente = null;
+
+                     if ( partes.length == 6 ) {
+                        int numeroCliente = Integer.parseInt( partes[0].trim() );
+                        String nomeCliente = partes[1].trim();
+                        String emailCliente = partes[2].trim();
+                        String docCliente = partes[4].trim();
+                        String nomeFantasia = partes[5].trim();
+
+                        cliente = new Corporativo( numeroCliente, nomeCliente, emailCliente, docCliente, nomeFantasia );
+                     } else if ( partes.length == 5 ) {
+                        int numeroCliente = Integer.parseInt( partes[0].trim() );
+                        String nomeCliente = partes[1].trim();
+                        String emailCliente = partes[2].trim();
+                        String docCliente = partes[4].trim();
+
+                        cliente = new Individual( numeroCliente, nomeCliente, emailCliente, docCliente );
+                     } else {
+                        continue;
+                     }
+
+                     if ( cliente != null ) {
+                        catalogoClientes.cadastrarCliente( cliente );
+                     }
+                     break;
+
+                  case "Jogo":
+                     if ( partes.length < 5 ) continue;
+                     int codigoJogo = Integer.parseInt( partes[0].trim() );
+                     String nomeJogo = partes[1].trim();
+                     int anoJogo = Integer.parseInt( partes[2].trim() );
+                     double valorMensal = Double.parseDouble( partes[3].trim() );
+                     Categoria categoria = Categoria.valueOf( partes[4].trim() );
+
+                     Jogo jogo = new Jogo( codigoJogo, nomeJogo, anoJogo, valorMensal, categoria );
+                     catalogoJogos.cadastrarJogo( jogo );
+                     break;
+
+                  case "FormaPagamento":
+                     FormaPagamento novaForma = null;
+
+                     if ( partes.length == 6 ) {
+                        int codigoPagamento = Integer.parseInt( partes[0].trim() );
+                        int diaVencimento = Integer.parseInt( partes[1].trim() );
+                        int numCliPagamento = Integer.parseInt( partes[2].trim() );
+                        String chavePagamento = partes[4].trim();
+                        Date validade = formatData.parse( partes[5].trim() );
+
+                        novaForma = new CartaoCredito( codigoPagamento, diaVencimento, numCliPagamento, chavePagamento, validade );
+                     } else if ( partes.length == 5 ) {
+                        int codigoPagamento = Integer.parseInt( partes[0].trim() );
+                        int diaVencimento = Integer.parseInt( partes[1].trim() );
+                        int numCliPagamento = Integer.parseInt( partes[3].trim() );
+                        String chavePagamento = partes[4].trim();
+
+                        novaForma = new PIX( codigoPagamento, numCliPagamento, diaVencimento, chavePagamento );
+                     } else {
+                        continue;
+                     }
+
+                     if ( novaForma != null ) {
+                        catalogoFormaPagamento.cadastraFormaPagamento( novaForma );
+                     }
+                     break;
+
+                  case "Contrato":
+                     if ( partes.length < 6 ) continue;
+                     int idContrato = Integer.parseInt( partes[0].trim() );
+                     Date dataContrato = formatData.parse( partes[1].trim() );
+                     int periodoContrato = Integer.parseInt( partes[2].trim() );
+                     int numCliContrato = Integer.parseInt( partes[3].trim() );
+                     int codJogoContrato = Integer.parseInt( partes[4].trim() );
+                     int codPagContrato = Integer.parseInt( partes[5].trim() );
+
+                     Cliente c = catalogoClientes.buscarCliente( numCliContrato );
+                     if ( c == null ) continue;
+
+                     Jogo j = catalogoJogos.buscarJogo( codJogoContrato );
+                     if ( j == null ) continue;
+
+                     FormaPagamento fp = catalogoFormaPagamento.buscarFormaPagamento( codPagContrato );
+                     if ( fp == null ) continue;
+
+                     Contrato contrato = new Contrato( idContrato, dataContrato, periodoContrato, c, j, fp );
+                     j.setJogoDisponivel( false );
+                     j.setContrato( idContrato );
+
+                     catalogoContratos.cadastraContrato( contrato );
+                     break;
+               }
+            } catch ( Exception e ) {
+               System.out.println( "Linha inválida ignorada na seção " + secaoAtual + ": " + line );
+            }
+         }
+
+         VaadinSession.getCurrent().setAttribute( "catalogoClientes", catalogoClientes );
+         VaadinSession.getCurrent().setAttribute( "catalogoJogos", catalogoJogos );
+         VaadinSession.getCurrent().setAttribute( "catalogoFormaPagamento", catalogoFormaPagamento );
+         VaadinSession.getCurrent().setAttribute( "catalogoContratos", catalogoContratos );
+
+         Notification.show( "Arquivo '" + nomeCompleto + "' lido e processado com sucesso!" );
+
+      } catch ( IOException e ) {
+         Notification.show( "Erro de I/O ao ler o arquivo: " + e.getMessage() );
+      }
+   }
+   
    class TratadorEventosBotoes implements ComponentEventListener<ClickEvent<Button>> {
 
       @Override 
@@ -408,6 +669,8 @@ public class ACMESpiele extends VerticalLayout {
                return;
             }
             path = "relatorioContrato";
+         } else if ( sourceEvento == buttonConsulta ) {
+            path = "consultas";
          } else if (sourceEvento == buttonRemoverContrato) {
             if (sContratos == null || sContratos.relatorioContrato().isEmpty()) {
                Notification.show("Nenhum contrato cadastrado!");
@@ -420,6 +683,8 @@ public class ACMESpiele extends VerticalLayout {
                return;
             }
             path = "alterarCliente";
+         } else if ( sourceEvento == buttonFinalizar ) {
+            path = "finalizar";
          }
          
 

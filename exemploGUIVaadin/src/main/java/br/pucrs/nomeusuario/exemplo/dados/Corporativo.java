@@ -32,8 +32,9 @@ public class Corporativo extends Cliente{
         return this.nomeFantasia;
     }
 
+    @Override
     public String descrever ()
     {
-        return getNumero() + ";" + getNome() + ";" + getEmail() + ";" + cnpj + ";" + nomeFantasia;
+        return getNumero() + ";" + getNome() + ";" + getEmail() + ";2" + ";" + cnpj + ";" + nomeFantasia;
     }
 }

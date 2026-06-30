@@ -1,5 +1,6 @@
 package br.pucrs.nomeusuario.exemplo.dados;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Contrato {
@@ -109,5 +110,19 @@ public class Contrato {
 		}
 
 		return valor;
+	}
+
+	public String getDataFormatada() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format( this.data );
+	}
+
+	public String descrever() {
+		return 	id + ";" +
+				getDataFormatada() + ";" +
+				periodo + ";" +
+				getNumeroCliente() + ";" +
+				getCodigoJogo() + ";" +
+				getCodPagamento();
 	}
 }

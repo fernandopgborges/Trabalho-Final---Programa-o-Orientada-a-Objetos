@@ -84,4 +84,11 @@ public class Jogo {
 		this.jogoDisponivel = jogoDisponivel;
 	}
 
+	public String descrever() {
+		return 	codigo + ";" +
+				nome + ";" +
+				ano + ";" +
+				valorDiario + ";" +
+				categoria.toString();
+	}
 }
