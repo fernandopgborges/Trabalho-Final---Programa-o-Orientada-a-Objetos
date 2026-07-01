@@ -1,4 +1,4 @@
-package br.pucrs.nomeusuario.exemplo;
+package br.pucrs.nomeusuario.exemplo.app;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

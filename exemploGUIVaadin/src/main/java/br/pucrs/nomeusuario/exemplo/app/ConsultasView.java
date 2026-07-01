@@ -1,4 +1,4 @@
-package br.pucrs.nomeusuario.exemplo.TelasTF;
+package br.pucrs.nomeusuario.exemplo.app;
 
 import java.util.ArrayList;
 import java.util.List;

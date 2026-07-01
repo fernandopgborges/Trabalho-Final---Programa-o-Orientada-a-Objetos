@@ -1,4 +1,4 @@
-package br.pucrs.nomeusuario.exemplo.TelasTF;
+package br.pucrs.nomeusuario.exemplo.app;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
