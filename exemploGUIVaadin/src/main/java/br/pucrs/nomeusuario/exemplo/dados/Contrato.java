@@ -109,7 +109,7 @@ public class Contrato {
 			valor = valor * 0.97;
 		}
 
-		return valor;
+		return valor * periodo;
 	}
 
 	public String getDataFormatada() {

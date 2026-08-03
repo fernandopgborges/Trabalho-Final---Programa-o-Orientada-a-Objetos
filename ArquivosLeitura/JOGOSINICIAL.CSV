@@ -1,3 +1,4 @@
-codigo;nome;ano;valorMensal;categoria
-444;War;2020;4.4;ESTRATEGIA
-333;Tetris;2000;3.3;AVENTURA
+codigo;nome;ano;valorDiario;categoria
+4444;War;2020;4.4;ESTRATEGIA
+3333;Tetris;2000;3.3;AVENTURA
+5555;Need for speed;1990;5.5;CORRIDA

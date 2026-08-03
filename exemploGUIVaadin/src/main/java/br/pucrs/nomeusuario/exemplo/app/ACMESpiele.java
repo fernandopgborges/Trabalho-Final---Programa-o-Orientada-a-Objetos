@@ -94,7 +94,7 @@ public class ACMESpiele extends VerticalLayout {
 
       buttonLerArquivosIniciais = new Button( "Ler arquivos base" );
 
-      buttonCadastroCliente = new Button( "Cadastrar Ciente" );
+      buttonCadastroCliente = new Button( "Cadastrar Cliente" );
       buttonCadastroJogo = new Button( "Cadastrar Jogo" );
       buttonCadastroPagamento = new Button( "Cadastrar Forma de Pagamento" );
       buttonCadastroContrato = new Button( "Cadastrar Contrato" );
@@ -153,7 +153,7 @@ public class ACMESpiele extends VerticalLayout {
       add( buttonCadastroPagamento );
       add( buttonCadastroContrato );
 
-      add( buttonRelatorioCliente, buttonRelatorioJogo, buttonConsulta, buttonRelatorioContrato, buttonRemoverContrato, buttonAlterarCliente);
+      add( buttonRelatorioCliente, buttonRelatorioJogo, buttonRelatorioContrato, buttonConsulta,buttonRemoverContrato, buttonAlterarCliente);
 
       HorizontalLayout layoutSalvar = new HorizontalLayout();
       layoutSalvar.add( textSalvarArquivo, buttonSalvarArquivo );
@@ -320,7 +320,7 @@ public class ACMESpiele extends VerticalLayout {
                } else {
 
                   novaForma = new PIX(
-                     codigo, numeroCliente, diaVencimento, chave
+                     codigo, diaVencimento, numeroCliente, chave
                   );
                }
 

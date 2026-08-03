@@ -170,6 +170,8 @@ public class CadastroPagamentoView extends VerticalLayout {
 
         gridPagamentos.addColumn( p -> {
             Cliente c = catalogoClientes.buscarCliente( p.getNumeroCliente() );
+            if ( c == null ) return "Cliente não encontrado!";
+
             return c.getNumero() + ": " + c.getNome();
         } ).setHeader( "Cliente" );
 

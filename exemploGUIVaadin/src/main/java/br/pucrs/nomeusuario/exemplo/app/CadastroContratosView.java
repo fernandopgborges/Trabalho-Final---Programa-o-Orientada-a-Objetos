@@ -16,7 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-import br.pucrs.nomeusuario.exemplo.dados.*;
+import br.pucrs.nomeusuario.exemplo.dados.CartaoCredito;
 import br.pucrs.nomeusuario.exemplo.dados.CatalogoClientes;
 import br.pucrs.nomeusuario.exemplo.dados.CatalogoContratos;
 import br.pucrs.nomeusuario.exemplo.dados.CatalogoFormaPagamento;
@@ -25,6 +25,7 @@ import br.pucrs.nomeusuario.exemplo.dados.Cliente;
 import br.pucrs.nomeusuario.exemplo.dados.Contrato;
 import br.pucrs.nomeusuario.exemplo.dados.FormaPagamento;
 import br.pucrs.nomeusuario.exemplo.dados.Jogo;
+import br.pucrs.nomeusuario.exemplo.dados.PIX;
 
 @Route( "/cadastroContrato" )
 public class CadastroContratosView extends VerticalLayout {
@@ -81,8 +82,31 @@ public class CadastroContratosView extends VerticalLayout {
 
         comboClientes.setItems( catalogoClientes.getClientes( ) );
         comboClientes.setItemLabelGenerator( c ->
-            c.getNumero( ) + " - " + c.getNome( )
+            c.getNumero() + " - " + c.getNome()
         );
+
+        comboClientes.addValueChangeListener( event -> {
+            Cliente clienteSelecionado = event.getValue();
+
+            if ( clienteSelecionado == null ) {
+                comboPagamentos.clear();
+                comboPagamentos.setItems();
+                return;
+            }
+
+            var listaPagamentos = catalogoPagamentos.getFormasPagamento()
+                .stream()
+                .filter( p -> p.getNumeroCliente() == clienteSelecionado.getNumero() )
+                .collect( Collectors.toList() );
+
+            if ( listaPagamentos.isEmpty() ) {
+                comboPagamentos.clear();
+                comboPagamentos.setItems();
+                Notification.show("Nenhum método de pagamento registrado." );
+            } else {
+                comboPagamentos.setItems( listaPagamentos );
+            }
+        });
 
         atualizarJogosDisponiveis( );
 
